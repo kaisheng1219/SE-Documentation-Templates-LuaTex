@@ -1,0 +1,262 @@
+% !TEX program = lualatex
+
+\documentclass[12pt,a4paper]{report}
+\usepackage{caption}
+\usepackage{amsmath}
+\usepackage{pifont}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage[table, dvipsnames]{xcolor}
+\usepackage{longtable}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\usepackage{adjustbox}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage[explicit]{titlesec} 
+\usepackage{tocloft}
+\usepackage[top=0.8in,bottom=0.8in,left=0.4in,right=0.4in]{geometry}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usepackage[final]{pdfpages}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=red,
+}
+
+%pagestyle-------------------------------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small \textit{Software Requirements Specification for <Project>}}
+\rhead{[Optional Header]}
+\fancyfoot[R]{Page \thepage} 
+\fancyfoot[L]{\hyperlink{toc}{Back to Table Of Contents}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\setlength{\headheight}{20pt}
+\assignpagestyle{\chapter}{fancy}
+
+\fancypagestyle{firstpage}
+{
+\lhead{\small \textit{Software Requirements Specification for <Project>}}
+\rhead{[Optional Header]}
+\chead{}
+\rfoot{}
+\lfoot{}
+\setlength{\headheight}{20pt}
+}
+
+\fancypagestyle{tocpage}
+{
+\lhead{\small \textit{Software Requirements Specification for <Project>}}
+\rhead{[Optional Header]}
+\chead{}
+\rfoot{}
+\lfoot{}
+\cfoot{\textbf{\color{ForestGreen}{\large texts in blue or red are clickable}}}
+\setlength{\headheight}{20pt}
+}
+
+\fancypagestyle{secondpage}
+{
+\lhead{\small \textit{Software Requirements Specification for <Project>}}
+\rhead{Optional Header}
+\chead{}
+\rfoot{}
+\lfoot{}
+\setlength{\headheight}{20pt}
+}
+
+\addtocontents{toc}{\protect\thispagestyle{tocpage}}
+
+\newcommand*\chapterlabel{}
+\titleformat{\chapter}
+  {}
+  {\chapterlabel{ }}{0pt}
+  % begin the main image, shifted 5cm down from top
+  {\begin{tikzpicture}[remember picture,overlay]
+    % add grey filled bar, 1cm high, linewidth wide.
+    \node(start)[]{};
+    \node(end)[right of=start, yshift=1cm,xshift=17.8cm]{};
+    \draw [draw=black,fill=darkgray] (start) rectangle (end);
+     % add the title, shifted to be centered in bar
+    \node[align=center] at (8.9,.5) {\color{white}{\sffamily\upshape\bfseries\huge{\thechapter\quad #1}}};
+   \end{tikzpicture}
+  }
+\titlespacing*{\chapter} {0pt}{-20pt}{10pt}
+
+\titleformat{\section}{\Large\bfseries}{}{0pt}{\thesection \quad #1}
+\titleformat{\subsection}{\large\bfseries}{}{0pt}{\thesubsection \quad #1}
+
+\newcommand\temp[1]{
+\begin{tikzpicture}[remember picture,overlay]
+    % add grey filled bar, 1cm high, linewidth wide.
+    \node(start)[]{};
+    \node(end)[right of=start, yshift=1cm,xshift=17.8cm]{};
+    \draw [draw=black,fill=darkgray] (start) rectangle (end);
+     % add the title, shifted to be centered in bar
+    \node[align=center] at (9.5,.5) {\color{white}{\sffamily\upshape\bfseries\huge{#1}}};
+\end{tikzpicture}
+}
+
+
+\parindent 0ex
+\vfuzz=3pt 
+\hfuzz=5pt 
+\renewcommand{\arraystretch}{2}
+\setlength{\arrayrulewidth}{.5mm}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}m{#1}}
+
+\setlength\cftbeforetoctitleskip{-10pt} 
+\setlength\cftaftertoctitleskip{10pt} 
+\setlength{\cftsecnumwidth}{2em} 
+\cftsetindents{subsec}{3.5em}{2.75em}
+\newlength{\drop}
+
+\renewcommand\cftchapfont{\large\bfseries}
+\renewcommand\cftsecfont{\large}
+
+\renewcommand\cftchappagefont{\large\bfseries}
+\renewcommand\cftsecpagefont{\large}
+
+\newcommand{\cmark}{\ding{51}}
+\newcommand{\xmark}{\ding{55}}
+\tolerance=1
+\emergencystretch=\maxdimen
+\hyphenpenalty=10000
+\hbadness=10000
+
+\linespread{1.1}
+%----------------------------------------------------------------------------------
+
+\begin{document}
+
+%title page
+\begin{titlepage}
+\thispagestyle{firstpage}
+\vspace*{-1.5em}
+\rule{\textwidth}{.1cm}
+\vspace{-1em} \\
+\fontsize{35}{38}\textbf{Software Requirements \\ Specification} 
+\vspace{3em} \\
+\fontsize{24}{29}\textbf{for} 
+\vspace{2em} \\
+\fontsize{30}{38}\textbf{<Project>}
+\vspace{3em} \\
+\fontsize{22}{29}\textbf{Version X} 
+\vspace{3em} \\
+\fontsize{22}{29}\textbf{<Organization>} 
+\vspace{3em} \\
+\fontsize{22}{29}\textbf{<Date Created>} 
+\end{titlepage}
+
+\thispagestyle{tocpage}
+\addtocontents{toc}{\protect\hypertarget{toc}{}}
+\tableofcontents
+\newpage
+\temp{Revisions}
+\phantomsection\addcontentsline{toc}{chapter}{Revisions}
+\begin{center}
+\setlength\arrayrulewidth{1.5pt}
+\begin{tabular}{|M{2cm}|M{4cm}|M{7.6cm}|M{3.3cm}|}
+        \hline 
+        \rowcolor{gray!25}
+        \textbf{Version} & \textbf{Primary Author(s)} & \textbf{Description of Version} & \textbf{Date Completed}\\
+        \hline 
+        Draft Type and Number & Full Name & Information about the revision. This table does
+        not need to be filled in whenever a document is
+        touched, only when the version is being upgraded. & dd-mm-yyyy \\ 
+        \hline 
+\end{tabular}  
+\end{center}
+
+\chapter{Project Introduction}
+\large
+\section{Team Members}
+\textit{<TO DO: List down the team members and their assigned actor/processes>}
+\section{Problem Statement}
+
+\section{Objectives}
+\section{Project Plan}
+
+\chapter{System Overview}
+\section{Description}
+\textit{<\textcolor{ForestGreen}{Summarize the major functions the product must perform or must let the user perform. Details will
+be provided in Section 3, so only a high level summary is needed here. Organize the functions to
+make them understandable to any reader of the SRS. A picture of the major groups of related
+requirements and how they relate, such as a top level data flow diagram or object class diagram, will
+be effective.} \\
+TO DO: Describe the major processes to be performed by the system and the actors involved in
+each process.>}
+
+\section{Actors}
+\textit{<\textcolor{ForestGreen}{Identify the various actors that will interact with this product.} \\
+TO DO: List the actors and the use cases/functions that involve each the actor>}
+
+\section{Assumptions and Dependencies}
+\textit{\textcolor{ForestGreen}{<List any assumed factors (as opposed to known facts) that could affect the requirements stated in
+the SRS. These could include third-party or commercial components that you plan to use, issues
+around the development or operating environment, or constraints. The project could be affected if
+these assumptions are incorrect, are not shared, or change. Also identify any dependencies the
+project has on external factors, such as software components that you intend to reuse from another
+project.} \\
+TO DO: Provide a short list of some major assumptions that might significantly affect your design.
+For example, you can assume that your client will have 1, 2 or at most 50 Automated Banking
+Machines. Every number has a significant effect on the design of your system. >}
+
+\section{Use Case Diagrams}
+<TO DO: Place the use case diagram here.>
+\chapter{Basic Requirements}
+\section{Actor 1}
+\subsection{Use Case 1}
+<TO DO: Describe the use case.>
+\subsection{Use Case 2}
+<TO DO: Describe the use case.> \\
+\hspace*{3cm} . \\
+\hspace*{3cm} . \\
+\hspace*{3cm} .
+\subsection{Use Case N}
+<TO DO: Describe the use case.>
+
+\section{Actor 2} 
+\subsection{Use Case 1}
+<TO DO: Describe the use case.>
+\subsection{Use Case 2}
+<TO DO: Describe the use case.> \\
+\hspace*{3cm} . \\
+\hspace*{3cm} . \\
+\hspace*{3cm} .
+\subsection{Use Case N}
+<TO DO: Describe the use case.>
+
+\section{Actor N}
+\hspace*{1.5cm} . \\
+\hspace*{1.5cm} . \\
+\hspace*{1.5cm} .
+
+\chapter{Specific Requirements}
+\section{Class Diagrams / ERD}
+\textit{<TO DO: Describe the classes and place the class diagram.>}
+
+\section{Sequence Diagrams}
+\subsection{Use Case 1}
+\textit{<TO DO: Describe the sequence and place the sequence diagram.>} \\
+\hspace*{3cm} . \\
+\hspace*{3cm} . \\
+\hspace*{3cm} . 
+\subsection{Use Case N}
+
+\chapter{Other Requirements}
+\textit{<This section is \underline{\textbf{Optional}}. \textcolor{ForestGreen}{Define any other requirements not covered elsewhere in the SRS. This
+might include database requirements, internationalization requirements, legal requirements, reuse
+objectives for the project, and so on. Add any new sections that are pertinent to the project}.>}
+\end{document}
